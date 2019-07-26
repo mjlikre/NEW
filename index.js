@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const cors = reuqire('cors');
+const cors = require('cors');
 
 const app = express()
 
@@ -20,10 +20,12 @@ app.use(cors());
 if (process.env.NODE_ENV === "production"){
     app.use(express.static('client/build'))
 }
+
+//uses the routes in the routes folder
 const routes = require('./routes')
 app.use(routes);
 
-const PORT = process.end.PORT || 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, ()=> console.log(`server started on port ${PORT}` ))
 
   
