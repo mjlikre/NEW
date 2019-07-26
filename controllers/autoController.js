@@ -32,6 +32,6 @@ module.exports = {
     }
   },
   signIn:(req, res)=>{
-    res.send('im hit')
+    res.send({token: tokenForUser(req.user)})
   }
 };
