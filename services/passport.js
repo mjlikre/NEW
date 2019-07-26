@@ -35,4 +35,28 @@ const jwtOptions = {
     secretOrKey: config.secret
 };
 
-passport.use(localLogin);
+//we're going to ge the payload argument from an incoming request
+//the payload argument is from the function that we will create in authroutes
+//done is the function we call once we tried to authenticate this user
+
+const jwtLogin = new JwtStrategy(jwtOptions, async (payload, done)=>{
+    try{
+        const user = await User.findById(payload.sub);
+        if (user){
+            done(null, user);
+
+        }else{
+            done(null, false);
+        }
+    }catch(e){
+        done(e, false);
+    }
+})
+//this tells passport that we declared these strategies
+//the local login says we have a strategy called local
+//the jtwLogin says we have a strategy called jwt
+
+// when we say passport.authenticate('jwt')
+//passport will look for a strategy called 'jwt'
+passport.use(localLogin)
+passport.use(jwtLogin)
